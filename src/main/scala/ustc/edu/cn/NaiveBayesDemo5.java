@@ -17,9 +17,9 @@ import java.io.File;
 import java.io.IOException;
 
 
-public class NaiveBayesDemo2 {
+public class NaiveBayesDemo5 {
     public static void main(String[] args) throws IOException {
-        FileUtils.deleteDirectory(new File("C:\\Users\\lgzkd\\IdeaProjects\\Spark-ML\\src\\main\\resources\\myNaiveBayesModel2"));
+        FileUtils.deleteDirectory(new File("C:\\Users\\lgzkd\\IdeaProjects\\Spark-ML\\src\\main\\resources\\myNaiveBayesModel5"));
         SparkConf sparkConf = new SparkConf().setAppName("NaiveBayesDemo").setMaster("local[6]");
         JavaSparkContext jsc = new JavaSparkContext(sparkConf);
         //加载数据
@@ -29,11 +29,11 @@ public class NaiveBayesDemo2 {
         JavaRDD<LabeledPoint> parsedData = lines.map(new Function<String, LabeledPoint>() {
                                                          public LabeledPoint call(String s) {
                                                              String[] sarray = s.split(",");
-                                                             Double dLabel = Double.valueOf((sarray[0].split("\t"))[1])%2;
+                                                             Double dLabel = Double.valueOf((sarray[0].split("\t"))[1])>5?1.0:0.0;
                                                              String[] sFeatures = sarray[1].split("\t");
                                                              double[] values = new double[sFeatures.length];
                                                              for (int i = 0; i < sFeatures.length; i++) {
-                                                                 values[i] = Double.parseDouble(sFeatures[i])%2;
+                                                                 values[i] = Double.parseDouble(sFeatures[i])>5?1.0:0.0;
                                                              }
                                                              System.out.println(dLabel + ":" + Vectors.dense(values));
                                                              LabeledPoint lp = new LabeledPoint(dLabel, Vectors.dense(values));
@@ -65,8 +65,8 @@ public class NaiveBayesDemo2 {
         }).count() / (double) test.count();
         System.out.println("accuracy-->" + accuracy);
         //保存和加载训练模型
-        model.save(jsc.sc(), base + "myNaiveBayesModel2");
-        NaiveBayesModel sameModel = NaiveBayesModel.load(jsc.sc(), base + "myNaiveBayesModel2");
+        model.save(jsc.sc(), base + "myNaiveBayesModel5");
+        NaiveBayesModel sameModel = NaiveBayesModel.load(jsc.sc(), base + "myNaiveBayesModel5");
         //对新的事件进行概率预测
         //System.out.println("Prediction of (0.0, 2.0, 0.0, 1.0):" + sameModel.predict(Vectors.dense(5, 1, 8, 4, 7, 6, 2, 3, 9)));
         //System.out.println("Prediction of (0.0, 2.0, 0.0, 1.0):" + sameModel.predict(Vectors.dense(5, 1, 8, 4, 7, 6, 2, 3, 9)));
@@ -81,7 +81,7 @@ public class NaiveBayesDemo2 {
         //System.out.println("Prediction of (0.0, 2.0, 0.0, 1.0):" + sameModel.predict(Vectors.dense(4,	8,	9,	7	,10,	2,	5	,3,	1)));6.0
         System.out.println("Prediction of (0.0, 2.0, 0.0, 1.0):" + sameModel.predict(Vectors.dense(
 
-                3,	8,	1	,10,	7,	5	,4	,6,	2)));
+                6	,4,	1	,3	,8,	10,	7,	2	,5)));
 
         jsc.stop();
     }

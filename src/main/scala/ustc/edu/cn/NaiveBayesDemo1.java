@@ -79,7 +79,8 @@ public class NaiveBayesDemo1 {
         //System.out.println("Prediction of (0.0, 2.0, 0.0, 1.0):" + sameModel.predict(Vectors.dense(7	,8	,9,	5	,3	,4,	10,	1,	2)));2.0
         //System.out.println("Prediction of (0.0, 2.0, 0.0, 1.0):" + sameModel.predict(Vectors.dense(4	,2,	7,	1,	6,	5,	10	,8,	3)));4.0
         //System.out.println("Prediction of (0.0, 2.0, 0.0, 1.0):" + sameModel.predict(Vectors.dense(4,	8,	9,	7	,10,	2,	5	,3,	1)));6.0
-        System.out.println("Prediction of (0.0, 2.0, 0.0, 1.0):" + sameModel.predict(Vectors.dense(7	,4,	8	,1,	2,	6,	5,	9,	3)));
+        System.out.println("Prediction of (0.0, 2.0, 0.0, 1.0):" + sameModel.predict(Vectors.dense(
+                6	,9	,2	,1	,5	,7,	3,	4	,10)));
 
         jsc.stop();
     }
